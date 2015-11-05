@@ -1,2 +1,1 @@
-arr = STDIN.gets.split.map(&:to_i)
-puts arr.sort.join(" ")
+puts arr = STDIN.gets.split.map(&:to_i).sort.join(" ")
