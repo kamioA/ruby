@@ -9,7 +9,7 @@ class User
   end
   
   def to_s
-    "User: #{@name}"
+    "#{@name}"
   end
 end
 
@@ -24,17 +24,6 @@ class Tweet
     "#{@user}: #{@content}\t#{@create_time}"
   end
 end
-
-#class Users
-#  def initialize(
-#   @users = []
-#end
-
-# def user(userName)
-#  #ユーザーの有無を確認してプッシュする
-# @users.push(userName.name)
-# end
-#end
 
 class Tweets
 end
@@ -71,6 +60,23 @@ end
 $tweet_repository = []
 $user_repository = []
 
+users_file = File.open("users.txt", "r")
+
+tweets_file = File.open("tweets.txt", "r")
+
+users_file.each do |line|
+  $user_repository.push(User.new(line.chomp))
+end
+
+tweets_file.each do |line|
+  arr = line.split(" ")
+  arr[0].chop!
+  $tweet_repository.push(Tweet.new(arr[0], arr[1]))
+end
+
+users_file.close
+tweets_file.close
+
 while true
   system "clear"
   puts "1:login 2:register 3:exit"
@@ -106,7 +112,7 @@ while true
   when 3 then
     puts "bye"
     sleep(1)
-    exit!
+    break
   else
     puts "error"
     sleep(1)
@@ -114,5 +120,16 @@ while true
   end
 end
 
+users_file = File.open("users.txt", "w")
+tweets_file = File.open("tweets.txt", "w")
 
+$user_repository.each do |name|
+  users_file.puts(name)
+end
 
+$tweet_repository.each do |line|
+  tweets_file.puts(line)
+end
+
+users_file.close
+tweets_file.close
